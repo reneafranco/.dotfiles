@@ -13,9 +13,11 @@ function error_exit {
     exit 1
 }
 
-# Check if ~/.dotfiles directory exists
+# Clone or update dotfiles repository
 if [ -d "$DOTFILES_DIR" ]; then
-    echo "$DOTFILES_DIR already exists. Skipping cloning."
+    echo "$DOTFILES_DIR already exists. Updating..."
+    cd "$DOTFILES_DIR" || error_exit "Error: Could not change to dotfiles directory."
+    git pull || error_exit "Error: Could not pull updates from dotfiles repository."
 else
     echo "Cloning dotfiles repository..."
     git clone "$REPO_URL" "$DOTFILES_DIR" || error_exit "Error: Could not clone dotfiles repository."
@@ -68,9 +70,9 @@ fi
 echo "Installing zsh-syntax-highlighting-git..."
 yay -S --noconfirm zsh-syntax-highlighting-git || error_exit "Error: Could not install zsh-syntax-highlighting-git."
 
-# Remove existing i3, nvim, and alacritty configurations
-echo "Removing existing i3, nvim, and alacritty configurations..."
-rm -rf "$HOME/.config/i3" "$HOME/.config/nvim" "$HOME/.config/alacritty" || error_exit "Error: Could not remove existing i3, nvim, and alacritty configurations."
+# Remove existing i3 and nvim configurations
+echo "Removing existing i3 and nvim configurations..."
+rm -rf "$HOME/.config/i3" "$HOME/.config/nvim" || error_exit "Error: Could not remove existing i3 and nvim configurations."
 
 # Create symbolic links
 echo "Creating symbolic links for i3, nvim, and alacritty configurations..."
