@@ -40,6 +40,10 @@ fi
 echo "Installing additional packages..."
 yay -S --noconfirm xorg xorg-init picom alacritty i3-wm i3blocks i3-gaps autotiling dmenu neofetch nitrogen firefox npm nvim || error_exit "Error: Could not install additional packages."
 
+# Install zip and unzip
+echo "Installing zip and unzip..."
+sudo pacman -S --noconfirm zip unzip || error_exit "Error: Could not install zip and unzip."
+
 # Install SDKMAN
 if ! command -v sdk &> /dev/null; then
     echo "Installing SDKMAN..."
