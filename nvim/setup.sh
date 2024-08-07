@@ -34,6 +34,10 @@ else
     echo "yay is already installed."
 fi
 
+# Install additional packages
+echo "Installing additional packages..."
+yay -S --noconfirm xorg xorg-init picom alacritty i3-wm i3blocks i3-gaps autotiling dmenu neofetch nitrogen firefox npm nvim || error_exit "Error: Could not install additional packages."
+
 # Install SDKMAN
 if ! command -v sdk &> /dev/null; then
     echo "Installing SDKMAN..."
@@ -48,6 +52,32 @@ else
     echo "SDKMAN is already installed."
 fi
 
+# Install getnf
+echo "Installing getnf..."
+yay -S --noconfirm getnf || error_exit "Error: Could not install getnf."
+
+# Install zsh
+if ! command -v zsh &> /dev/null; then
+    echo "Installing zsh..."
+    sudo pacman -S --noconfirm zsh || error_exit "Error: Could not install zsh."
+else
+    echo "zsh is already installed."
+fi
+
+# Install zsh-syntax-highlighting-git using yay
+echo "Installing zsh-syntax-highlighting-git..."
+yay -S --noconfirm zsh-syntax-highlighting-git || error_exit "Error: Could not install zsh-syntax-highlighting-git."
+
+# Remove existing i3, nvim, and alacritty configurations
+echo "Removing existing i3, nvim, and alacritty configurations..."
+rm -rf "$HOME/.config/i3" "$HOME/.config/nvim" "$HOME/.config/alacritty" || error_exit "Error: Could not remove existing i3, nvim, and alacritty configurations."
+
+# Create symbolic links
+echo "Creating symbolic links for i3, nvim, and alacritty configurations..."
+ln -s "$DOTFILES_DIR/i3" "$HOME/.config/i3" || error_exit "Error: Could not create symbolic link for i3."
+ln -s "$DOTFILES_DIR/nvim" "$HOME/.config/nvim" || error_exit "Error: Could not create symbolic link for nvim."
+ln -s "$DOTFILES_DIR/alacritty" "$HOME/.config/alacritty" || error_exit "Error: Could not create symbolic link for alacritty."
+
 # Check and remove existing bumblebee-status
 if [ -d "$BUMBLEBEE_STATUS_DIR" ]; then
     echo "$BUMBLEBEE_STATUS_DIR already exists, removing..."
@@ -59,14 +89,6 @@ echo "Cloning bumblebee-status repository..."
 git clone "$BUMBLEBEE_REPO_URL" "$BUMBLEBEE_STATUS_DIR" || error_exit "Error: Could not clone bumblebee-status repository."
 cd "$BUMBLEBEE_STATUS_DIR" || error_exit "Error: Could not change to bumblebee-status directory."
 makepkg -sicr || error_exit "Error: Could not build and install bumblebee-status."
-
-# Install zsh-syntax-highlighting-git using yay
-echo "Installing zsh-syntax-highlighting-git..."
-yay -S --noconfirm zsh-syntax-highlighting-git || error_exit "Error: Could not install zsh-syntax-highlighting-git."
-
-# Install autotiling
-echo "Installing autotiling..."
-yay -S --noconfirm autotiling || error_exit "Error: Could not install autotiling."
 
 echo "All tasks completed successfully."
 
