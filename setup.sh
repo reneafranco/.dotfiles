@@ -36,13 +36,13 @@ else
     echo "yay is already installed."
 fi
 
-# Install additional packages
-echo "Installing additional packages..."
-yay -S --noconfirm xorg xorg-init picom alacritty i3-wm i3blocks i3-gaps autotiling dmenu neofetch nitrogen firefox npm nvim || error_exit "Error: Could not install additional packages."
+# Install additional packages using yay
+echo "Installing additional packages with yay..."
+yay -S --noconfirm xorg xorg-init picom alacritty i3-wm i3blocks i3-gaps autotiling dmenu neofetch nitrogen firefox npm || error_exit "Error: Could not install additional packages with yay."
 
-# Install zip and unzip
-echo "Installing zip and unzip..."
-sudo pacman -S --noconfirm zip unzip || error_exit "Error: Could not install zip and unzip."
+# Install additional packages using pacman
+echo "Installing neovim with pacman..."
+sudo pacman -S --noconfirm neovim || error_exit "Error: Could not install neovim with pacman."
 
 # Install SDKMAN
 if ! command -v sdk &> /dev/null; then
@@ -70,9 +70,13 @@ else
     echo "zsh is already installed."
 fi
 
-# Install zsh-syntax-highlighting-git using yay
-echo "Installing zsh-syntax-highlighting-git..."
-yay -S --noconfirm zsh-syntax-highlighting-git || error_exit "Error: Could not install zsh-syntax-highlighting-git."
+# Install zsh-syntax-highlighting-git with yay
+echo "Installing zsh-syntax-highlighting-git with yay..."
+yay -S --noconfirm zsh-syntax-highlighting-git || error_exit "Error: Could not install zsh-syntax-highlighting-git with yay."
+
+# Install powerlevel10k with yay
+echo "Installing powerlevel10k with yay..."
+yay -S --noconfirm powerlevel10k || error_exit "Error: Could not install powerlevel10k with yay."
 
 # Remove existing i3 and nvim configurations
 echo "Removing existing i3 and nvim configurations..."
